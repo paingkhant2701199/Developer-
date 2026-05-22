@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CYBER TERMINAL</title>
+
+<style>
+
+:root{
+  --green:#00ff88;
+  --dark:#020503;
+  --border:rgba(0,255,136,.25);
+  --panel:rgba(0,0,0,.55);
+  --white:#ffffff;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:monospace;
+}
+
+body{
+  background:var(--dark);
+  overflow:hidden;
+  color:var(--green);
+}
+
+/* MATRIX */
+
+#matrix{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:1;
+  opacity:.6;
+}
+
+/* MAIN */
+
+.main{
+  position:relative;
+  z-index:5;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+
+/* PANEL */
+
+.panel{
+  width:100%;
+  max-width:850px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  backdrop-filter:blur(8px);
+  padding:35px 20px;
+  position:relative;
+  box-shadow:
+    0 0 20px rgba(0,255,136,.08);
+}
+
+/* CORNERS */
+
+.panel::before,
+.panel::after{
+  content:"";
+  position:absolute;
+  width:20px;
+  height:20px;
+  border-color:var(--green);
+}
+
+.panel::before{
+  top:10px;
+  left:10px;
+  border-top:2px solid;
+  border-left:2px solid;
+}
+
+.panel::after{
+  bottom:10px;
+  right:10px;
+  border-bottom:2px solid;
+  border-right:2px solid;
+}
+
+/* BUTTON */
+
+.action{
+  margin-bottom:35px;
+}
+
+.cyber-btn{
+  width:100%;
+  background:transparent;
+  border:1px solid var(--green);
+  color:var(--green);
+  padding:22px;
+  cursor:pointer;
+  font-size:1.1rem;
+  font-weight:bold;
+  letter-spacing:5px;
+  transition:.3s;
+}
+
+.cyber-btn:hover{
+  background:var(--green);
+  color:#000;
+  box-shadow:
+    0 0 15px rgba(0,255,136,.5);
+}
+
+/* GRID */
+
+.grid{
+  display:grid;
+  gap:18px;
+}
+
+/* CARD */
+
+.card{
+  border:1px solid var(--border);
+  background:rgba(0,255,136,.03);
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  border-color:var(--green);
+  box-shadow:
+    0 0 15px rgba(0,255,136,.08);
+}
+
+.card a{
+  text-decoration:none;
+  color:var(--white);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:25px;
+}
+
+.left{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.title{
+  font-size:1.1rem;
+  font-weight:bold;
+}
+
+.tag{
+  color:var(--green);
+  opacity:.8;
+  font-size:.85rem;
+}
+
+.arrow{
+  color:var(--green);
+  font-size:1.4rem;
+}
+
+/* FOOTER */
+
+.footer{
+  margin-top:35px;
+  text-align:center;
+  opacity:.5;
+  font-size:.72rem;
+  letter-spacing:2px;
+  line-height:1.8;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+  body{
+    overflow:auto;
+  }
+
+  .panel{
+    padding:25px 15px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="main">
+
+  <div class="panel">
+
+    <!-- BUTTON -->
+    <div class="action">
+
+      <button class="cyber-btn" id="devBtn">
+        ACCESS DEVELOPER
+      </button>
+
+    </div>
+
+    <!-- CHANNELS -->
+    <div class="grid">
+
+      <!-- CARD -->
+      <div class="card">
+
+        <a href="https://t.me/Leocouse" target="_blank">
+
+          <div class="left">
+
+            <div class="title">
+              Hacker Channel
+            </div>
+
+            <div class="tag">
+              @Leocouse
+            </div>
+
+          </div>
+
+          <div class="arrow">
+            ⟫
+          </div>
+
+        </a>
+
+      </div>
+
+      <!-- CARD -->
+      <div class="card">
+
+        <a href="https://t.me/koleogameshop" target="_blank">
+
+          <div class="left">
+
+            <div class="title">
+              Diamond Channel
+            </div>
+
+            <div class="tag">
+              @koleogameshop
+            </div>
+
+          </div>
+
+          <div class="arrow">
+            ⟫
+          </div>
+
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+
+      <div>
+        [ STATUS ] : ENCRYPTION ACTIVE
+      </div>
+
+      <div>
+        AUTHORIZED_BY : @paing07709
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+/* MATRIX EFFECT */
+
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const chars =
+"01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+
+const rainDrops = [];
+
+for(let x = 0; x < columns; x++){
+  rainDrops[x] = 1;
+}
+
+const draw = () => {
+
+  ctx.fillStyle = "rgba(2,5,3,0.08)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle = "#00ff88";
+  ctx.font = fontSize + "px monospace";
+
+  for(let i = 0; i < rainDrops.length; i++){
+
+    const text =
+      chars.charAt(
+        Math.floor(Math.random() * chars.length)
+      );
+
+    ctx.fillText(
+      text,
+      i * fontSize,
+      rainDrops[i] * fontSize
+    );
+
+    if(
+      rainDrops[i] * fontSize >
+      canvas.height &&
+      Math.random() > 0.975
+    ){
+      rainDrops[i] = 0;
+    }
+
+    rainDrops[i]++;
+
+  }
+
+};
+
+setInterval(draw, 35);
+
+/* RESIZE */
+
+window.addEventListener("resize", () => {
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+});
+
+/* BUTTON */
+
+document
+.getElementById("devBtn")
+.addEventListener("click", () => {
+
+  window.open(
+    "https://t.me/paing07709",
+    "_blank"
+  );
+
+});
+
+</script>
+
+</body>
+</html>
